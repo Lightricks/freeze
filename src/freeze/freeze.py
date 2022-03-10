@@ -172,5 +172,8 @@ def _frozen(obj):
 
 
 def _is_immutable(obj) -> bool:
-    hash_attr = getattr(obj, "__hash__", None)
-    return callable(hash_attr)
+    try:
+        _ = hash(obj)
+        return True
+    except Exception:
+        return False
