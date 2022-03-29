@@ -25,5 +25,5 @@ Attempting to initialize any Freeze collection with un-freezable objects will ra
 - Type hints are only accurate as long as no data conversion was performed.
 
 ## Future Plans:
-- support for thawing.
-- support for freezing more types.
+- add support for thawing.
+- add support for freezing more types.

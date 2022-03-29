@@ -8,6 +8,7 @@ from src.freeze import FDict, FList, FSet
 
 class TestFList:
     def test_init(self):
+        assert False
         frozen_list = FList([1, "a"])
 
         assert len(frozen_list) == 2
