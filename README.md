@@ -1,29 +1,47 @@
 # Freeze
 
-Freeze provides frozen (immutable) implementations of the basic Python collections - **dict**, **set** and **list**.
 
+Freeze introduces 3 frozen collections: `FDict`, `FSet` and `FList`.
+They are **immutable**, **hashable**, support **type-hinting**, and will attempt to recursively convert mutable 
+collections into frozen counterparts on initialization.
+
+### Motivation 
 While there are built-in immutable versions for **list** (**tuple**) and **set** (**frozenset**), 
-they are not always a good replacement for their mutable counterparts:
-- `tuple` can store mutable objects so its immutability is not guaranteed.
-- `frozenset` will raise an exception if you try to initialize it with any mutable object.
-- `dict` doesn't have a built-in immutable version.
+they have some issues:
+- **tuple** can store mutable objects so its immutability is not guaranteed.
+- **frozenset** can't be initialized with mutable objects.
+- **dict** doesn't have a built-in immutable version at all.
 
-Freeze introduces the following collections: `FDict`, `FSet` and `FList`.
+### Installation
+```shell
+pip install frz 
+```
 
-They are immutable, hashable, type-hinted, and will attempt to convert mutable data to an equivalent 
-immutable representation on initialization.
+### Usage
+```python
+from freeze import FDict, FList, FSet
 
-Freezing is achieved by following a simple logic recursively:
-- Immutable objects stay the same (except for collections).
-- Any **Mapping** (e.g. **dict**) is converted to an **FDict**.
-- Any **AbstractSet** (e.g. **set**) is converted to an **FSet**.
-- Any **Sequence** (e.g. **list** or **tuple**) is converted to an **FList**.
+a_mutable_dict = {
+    "list": [1, 2],
+    "set": {3, 4},
+}
 
-Attempting to initialize any Freeze collection with un-freezable objects will raise an exception.  
+a_frozen_dict = FDict(a_mutable_dict)
 
-## Issues:
+print(repr(a_frozen_dict)) # FDict: {'list': FList: (1, 2), 'set': FSet: {3, 4}}
+```
+
+### How Freeze Works
+Freezing a collection is achieved by following the following logic recursively:
+- Immutable objects (except for collections) stay the same.
+- **Mapping** (e.g. **dict**) frozen with **FDict**.
+- **Sequence** (e.g. **list** or **tuple**) frozen as **FList**s.
+- **AbstractSet** (e.g. **set**) frozen as **FSet**s.
+- If any value in the collection can't be frozen, an exception is raised.
+
+### Known Issues:
 - Type hints are only accurate as long as no data conversion was performed.
 
-## Future Plans:
-- support for thawing.
-- support for freezing more types.
+### Future Plans:
+- support for thawing frozen collections.
+- support for freezing more mutable types.
