@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from src.freeze.freeze import FDict, FList, FSet
+from src.freeze import FDict, FList, FSet
 
 
 class TestFList:
